@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Symlink every skill in this repo into ~/.claude/skills/ (Claude Code).
+#   ./setup          install / update symlinks
+#   ./setup --clean  also remove dead symlinks in ~/.claude/skills
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEST="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+mkdir -p "$DEST"
+
+if [[ "${1:-}" == "--clean" ]]; then
+  for l in "$DEST"/*; do
+    [[ -L "$l" ]] || continue
+    if [[ ! -e "$l" ]]; then echo "removing dead symlink: $(basename "$l")"; rm "$l"; fi
+  done
+fi
+
+n=0
+for d in "$ROOT"/skills/*/; do
+  [[ -f "$d/SKILL.md" ]] || continue
+  name="$(basename "$d")"
+  ln -sfn "$d" "$DEST/$name"
+  echo "  + $name"
+  n=$((n+1))
+done
+echo
+echo "$n skills linked into $DEST"
+echo "Start a new Claude Code session so the agent picks them up."

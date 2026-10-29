@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+sf-out/
+*.mp4
+*.mov
+*.wav
+*.m4a
+# secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p8
+*.p12
