@@ -75,3 +75,5 @@ An empty table means this skill has never been corrected.
 |---|---|---|---|
 
 Kiem ship 15/11: ban cap nhat A (duyet).
+
+Kiem ship 15/11: ban cap nhat B (tu choi).
