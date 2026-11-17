@@ -1,0 +1,72 @@
+{
+  "format": 10,
+  "name": "field-test",
+  "title": [
+    "We camped inside a cave",
+    "here's what we found"
+  ],
+  "trim": [
+    0,
+    29.2
+  ],
+  "elements": [
+    {
+      "type": "tag",
+      "text": "Day 1 · camp",
+      "at": "we slept in tents",
+      "until": "we went down"
+    },
+    {
+      "type": "row",
+      "style": "neutral",
+      "mark": "1  ",
+      "text": "Camp next to the shaft",
+      "at": "we slept in tents"
+    },
+    {
+      "type": "tag",
+      "text": "Depth 160 m",
+      "at": "we went down",
+      "until": "we hiked in"
+    },
+    {
+      "type": "row",
+      "style": "neutral",
+      "mark": "2  ",
+      "text": "Drop down a 160 m shaft",
+      "at": "we went down"
+    },
+    {
+      "type": "tag",
+      "text": "+300 m inside",
+      "at": "we hiked in",
+      "until": "and that's unusual"
+    },
+    {
+      "type": "row",
+      "style": "neutral",
+      "mark": "3  ",
+      "text": "Hike 200-300 m in",
+      "at": "we hiked in"
+    },
+    {
+      "type": "row",
+      "style": "good",
+      "text": "RESULT: a flat sandy floor",
+      "at": "flat sandy area"
+    },
+    {
+      "type": "stamp",
+      "style": "good",
+      "text": "Unusual",
+      "at": "that's unusual"
+    },
+    {
+      "type": "cta",
+      "text": "Comment: would you go?",
+      "at": "stalagmites"
+    }
+  ],
+  "focus_x": 0.5,
+  "scale": 1.15
+}

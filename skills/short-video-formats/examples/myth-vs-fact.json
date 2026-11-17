@@ -1,0 +1,60 @@
+{
+  "format": 8,
+  "name": "myth-vs-fact",
+  "title": [
+    "Can the body survive",
+    "a year in space?"
+  ],
+  "trim": [
+    0,
+    28.7
+  ],
+  "elements": [
+    {
+      "type": "row",
+      "style": "bad",
+      "text": "MYTH: a year up there breaks you",
+      "at": "one of the people"
+    },
+    {
+      "type": "stamp",
+      "style": "bad",
+      "text": "Myth",
+      "at": "one of the people",
+      "until": "the human body can endure"
+    },
+    {
+      "type": "row",
+      "style": "neutral",
+      "mark": "→ ",
+      "text": "Year-long records keep falling",
+      "at": "record will soon"
+    },
+    {
+      "type": "row",
+      "style": "good",
+      "text": "FACT: the body endures and adapts",
+      "at": "the human body can endure"
+    },
+    {
+      "type": "stamp",
+      "style": "good",
+      "text": "Fact",
+      "at": "the human body can endure"
+    },
+    {
+      "type": "row",
+      "style": "neutral",
+      "mark": "→ ",
+      "text": "Next: the Moon, then Mars",
+      "at": "push back to the moon"
+    },
+    {
+      "type": "cta",
+      "text": "Follow for more space myths",
+      "at": "learn just how"
+    }
+  ],
+  "focus_x": 0.48,
+  "scale": 1.15
+}

@@ -50,6 +50,12 @@ you already have, plus free local tools — `ffmpeg`, Whisper running on your ow
 | [`agent-secrets-guard`](./skills/agent-secrets-guard) | Keep API keys and passwords safe when handing work to an AI agent, and push code to GitHub without leaking anything. Use when touching an API key, secret, .env, password… | `merged but the site did not change` |
 | [`skill-forge`](./skills/skill-forge) | Turn a process or hard-won lesson into a proper SKILL.md — you tell the story, the skill does the rest. Every skill, new or existing, carries a LESSONS LOG inside its own… | `write a skill`, `make a skill for this`, `fix this skill`, `skill does not trigger`, `standardise my skills` |
 
+### Other
+
+| Skill | What it does | Say |
+|---|---|---|
+| [`short-video-formats`](./skills/short-video-formats) | Write and edit short-form videos in 10 proven formats for knowledge and education channels - Straight Talk, Hands-On Explainer, Backdrop Commentary, Second Screen, Whiteboard… | `t List, Myth vs Fact, Tier Ranking, Field Test. From a topic it writes the script, shot list, on-screen text and edit notes in the format`, `s graphics, silence cuts, punch zooms and word captions. Runs locally with ffmpeg, no API key. Use when the user says`, `,`, `t video`, `tier list video`, `whiteboard video` |
+
 <!-- INDEX:END -->
 
 ---

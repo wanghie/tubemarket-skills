@@ -1,0 +1,45 @@
+{
+  "format": 5,
+  "name": "whiteboard-breakdown",
+  "title": [
+    "Artemis, explained",
+    "in 3 steps"
+  ],
+  "trim": [
+    1.0,
+    19.4
+  ],
+  "elements": [
+    {
+      "type": "row",
+      "style": "board",
+      "text": "ARTEMIS PLAN (as announced in 2019)",
+      "at": "Artemis program"
+    },
+    {
+      "type": "row",
+      "style": "board",
+      "text": "1 · 2021  launch, no crew",
+      "at": "launch a vehicle"
+    },
+    {
+      "type": "row",
+      "style": "board",
+      "text": "2 · 2023  crew flies around the Moon",
+      "at": "then crew"
+    },
+    {
+      "type": "row",
+      "style": "board",
+      "text": "3 · 2024  first woman lands",
+      "at": "landing on the surface"
+    },
+    {
+      "type": "cta",
+      "text": "Save this timeline",
+      "at": "landing on the surface"
+    }
+  ],
+  "focus_x": 0.49,
+  "scale": 1.15
+}
