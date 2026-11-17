@@ -35,7 +35,7 @@ These two parameters control the whole feel:
 
 ## Requirements
 
-`ffmpeg`, `pip install mediapipe opencv-python` (optional — without them it runs in centre mode)
+`ffmpeg`, `pip install opencv-python` (face tracking with OpenCV YuNet; the 230 KB model downloads once to `~/.cache/tubemarket/`, offline it falls back to Haar with outlier rejection; without OpenCV it runs in centre mode)
 
 ## LESSONS LOG
 
@@ -65,3 +65,4 @@ An empty table means this skill has never been corrected.
 
 | Date | Source | WRONG | RIGHT |
 |---|---|---|---|
+| 2026-11-17 | measured | Haar detector read a face-like prop (a capsule model) as the face for 4 s, so the 9:16 crop panned onto the prop | YuNet first; Haar hits that disagree with the face track in size or position are discarded |

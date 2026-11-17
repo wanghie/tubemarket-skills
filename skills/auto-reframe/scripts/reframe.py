@@ -18,121 +18,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "lib"))
 import sfcore as sf  # noqa: E402
-
-
-def _make_detector():
-    """Return (detect_fn, name) or (None, reason).
-
-    Three backends, tried in order. MediaPipe ships two incompatible APIs
-    depending on version, and some wheels ship neither - so OpenCV's Haar
-    cascade is kept as the always-available floor. It is less accurate but
-    it never leaves the skill dead.
-    """
-    import cv2
-
-    try:  # mediapipe <= 0.10.x classic solutions API
-        import mediapipe as mp
-        det = mp.solutions.face_detection.FaceDetection(
-            model_selection=1, min_detection_confidence=0.4)
-
-        def f(frame):
-            res = det.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            if not res.detections:
-                return None
-            best = max(res.detections,
-                       key=lambda d: d.location_data.relative_bounding_box.width)
-            bb = best.location_data.relative_bounding_box
-            return (bb.xmin + bb.width / 2) * frame.shape[1]
-
-        return f, "mediapipe.solutions"
-    except Exception:
-        pass
-
-    try:  # mediapipe tasks API - needs a local .tflite model
-        import os
-        import mediapipe as mp
-        from mediapipe.tasks.python import vision, BaseOptions
-        model = os.environ.get("SF_FACE_MODEL", "")
-        if model and Path(model).exists():
-            opts = vision.FaceDetectorOptions(
-                base_options=BaseOptions(model_asset_path=model),
-                min_detection_confidence=0.4)
-            det = vision.FaceDetector.create_from_options(opts)
-
-            def f(frame):
-                img = mp.Image(image_format=mp.ImageFormat.SRGB,
-                               data=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                res = det.detect(img)
-                if not res.detections:
-                    return None
-                best = max(res.detections, key=lambda d: d.bounding_box.width)
-                bb = best.bounding_box
-                return bb.origin_x + bb.width / 2
-
-            return f, "mediapipe.tasks"
-    except Exception:
-        pass
-
-    try:  # opencv haar - bundled with opencv-python, no download
-        cascade = cv2.CascadeClassifier(
-            cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-        if cascade.empty():
-            raise RuntimeError("cascade did not load")
-
-        def f(frame):
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            faces = cascade.detectMultiScale(gray, 1.15, 5, minSize=(60, 60))
-            if len(faces) == 0:
-                return None
-            x, y, w, h = max(faces, key=lambda r: r[2])
-            return x + w / 2
-
-        return f, "opencv.haar"
-    except Exception as e:
-        return None, f"no face backend ({e})"
+import face  # noqa: E402
 
 
 def sample_face_centers(src: str, step: float, crop_w: int, width: int):
     """Return [(t, cx_pixels)] sampled every `step` seconds. cx is None where
-    no face was found - callers hold the last known position."""
-    try:
-        import cv2
-    except ImportError:
-        sf.info("opencv not installed - falling back to centre crop")
+    no face was found - callers hold the last known position. Detection and
+    false-hit rejection live in lib/face.py (YuNet first, Haar as the floor)."""
+    samples = face.sample_faces(src, step)
+    if samples is None:
+        sf.info("no face backend - falling back to centre crop")
         return None
-
-    detect, name = _make_detector()
-    if detect is None:
-        sf.info(f"{name} - falling back to centre crop")
-        return None
-    sf.info(f"face backend: {name}")
-
-    cap = cv2.VideoCapture(src)
-    if not cap.isOpened():
-        sf.die(f"OpenCV cannot open {src}")
-    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-    stride = max(int(round(fps * step)), 1)
-
-    out, idx = [], 0
-    while True:
-        if not cap.grab():
-            break
-        if idx % stride == 0:
-            ok, frame = cap.retrieve()
-            if ok:
-                try:
-                    cx = detect(frame)
-                except Exception:
-                    cx = None
-                out.append((idx / fps, cx))
-        idx += 1
-    cap.release()
-    found = sum(1 for _, c in out if c is not None)
-    sf.info(f"sampled {len(out)} frames, face found in {found}")
-    if found == 0:
+    if not any(c for _, c in samples):
         sf.info("no face anywhere - using centre crop")
         return None
-    return out
+    return [(t, c[0] if c else None) for t, c in samples]
 
 
 def to_shots(samples, width: int, crop_w: int, smooth: int,

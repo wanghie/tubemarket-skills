@@ -8,7 +8,9 @@ description: Add pace to talking-head video with punch zooms on emphasised words
 A static single-camera talking head is the number one reason viewers scroll past. This skill adds two kinds of motion, both tied to the speech rather than sprinkled at random.
 
 - **punch** — an instant hard zoom on the emphasised word, held to the end of the clause
-- **push** — a slow Ken Burns push under long passages so the frame never sits still too long
+- **push** — a slow push in toward the speaker under long passages so the frame never sits still too long
+
+Every zoom is aimed at the speaker's face: the face is tracked through the clip (OpenCV YuNet, Haar as fallback), smoothed, and the zoomed window follows it with the face centred and headroom above. A move with no face in its window is dropped, never pointed at empty background. Faceless footage (screen recordings, B-roll): pass `--anchor center`.
 
 ## Run
 
@@ -43,7 +45,7 @@ Then a minimum gap of 2.2s between zooms is enforced. Without it the video jitte
 
 ## Technical detail
 
-The punch crop sits high (40% instead of 50% of the height) so the face is not pushed out of frame. For video already reframed to 9:16, run this skill AFTER auto-reframe.
+The zoomed window puts the face centre at 50% width / 42% height, clamped to the frame edges, and moves with the face (sampled every 0.2 s, 1.4 s moving average) so it never drifts off the speaker. The first word of the clip no longer counts as "after a pause". Two punches closer than 0.4 s are not merged into one long static zoom; the later one is skipped. Needs `pip install opencv-python` (the 230 KB YuNet model downloads once to `~/.cache/tubemarket/`; offline it uses Haar). For video already reframed to 9:16, run this skill AFTER auto-reframe.
 
 ## LESSONS LOG
 
@@ -73,3 +75,4 @@ An empty table means this skill has never been corrected.
 
 | Date | Source | WRONG | RIGHT |
 |---|---|---|---|
+| 2026-11-17 | user | Zoom window fixed at frame centre: zooms landed on empty background when the speaker sat off-centre | Aim every zoom at the tracked face; drop a zoom that has no face to aim at |

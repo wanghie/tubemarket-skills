@@ -70,7 +70,7 @@ git clone <repo-url> tubemarket-skills
 cd tubemarket-skills
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt           # faster-whisper (local), numpy, PyAV pin
-pip install mediapipe opencv-python       # optional: face-tracking reframe
+pip install opencv-python                 # optional: face tracking (reframe + face-aimed zooms)
 ```
 
 The first transcription downloads a Whisper model from Hugging Face once (free, no
