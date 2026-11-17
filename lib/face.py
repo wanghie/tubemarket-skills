@@ -20,6 +20,8 @@ import os
 import urllib.request
 from pathlib import Path
 
+os.environ.setdefault("OPENCV_LOG_LEVEL", "ERROR")  # hide OpenCV backend chatter
+
 YUNET_URL = ("https://github.com/opencv/opencv_zoo/raw/main/models/"
              "face_detection_yunet/face_detection_yunet_2023mar.onnx")
 
